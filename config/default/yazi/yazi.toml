@@ -1,0 +1,11 @@
+# Minimal Yazi config with image preview-friendly defaults.
+
+[mgr]
+ratio = [1, 4, 3]
+sort_by = "natural"
+sort_sensitive = false
+sort_reverse = false
+
+[preview]
+wrap = "yes"
+image_delay = 50
