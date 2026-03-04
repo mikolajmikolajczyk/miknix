@@ -48,5 +48,14 @@
     "image/x-portable-bitmap" = [ "org.gnome.eog.desktop" ];
     "image/heif" = [ "org.gnome.eog.desktop" ];
     "image/heic" = [ "org.gnome.eog.desktop" ];
+    "application/zip" = [ "org.kde.ark.desktop" ];
+    "application/x-7z-compressed" = [ "org.kde.ark.desktop" ];
+    "application/x-rar" = [ "org.kde.ark.desktop" ];
+    "application/x-rar-compressed" = [ "org.kde.ark.desktop" ];
+    "application/x-tar" = [ "org.kde.ark.desktop" ];
+    "application/gzip" = [ "org.kde.ark.desktop" ];
+    "application/x-bzip2" = [ "org.kde.ark.desktop" ];
+    "application/x-xz" = [ "org.kde.ark.desktop" ];
+    "application/x-zstd" = [ "org.kde.ark.desktop" ];
   };
 }

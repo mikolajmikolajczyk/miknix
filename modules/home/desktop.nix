@@ -4,6 +4,63 @@ let
   cfgRoot = ../../config;
   userCfg = cfgRoot + "/${config.home.username}";
   defaultCfg = cfgRoot + "/default";
+  togglePowerProfile = pkgs.writeShellScriptBin "toggle-power-profile" ''
+    current="$(${pkgs.power-profiles-daemon}/bin/powerprofilesctl get 2>/dev/null || true)"
+
+    case "$current" in
+      power-saver) next="balanced" ;;
+      balanced) next="performance" ;;
+      performance) next="power-saver" ;;
+      *) next="balanced" ;;
+    esac
+
+    ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set "$next"
+
+    if command -v notify-send >/dev/null 2>&1; then
+      notify-send "Power profile" "Switched to $next"
+    fi
+  '';
+  thunarOpenTerminalHere = pkgs.writeShellScriptBin "thunar-open-terminal-here" ''
+    target="$1"
+    [ -n "$target" ] || target="$PWD"
+
+    if [ -d "$target" ]; then
+      dir="$target"
+    else
+      dir="$(dirname "$target")"
+    fi
+
+    exec kitty --working-directory "$dir"
+  '';
+  thunarCopyPath = pkgs.writeShellScriptBin "thunar-copy-path" ''
+    target="$1"
+    [ -n "$target" ] || exit 1
+
+    abs="$(${pkgs.coreutils}/bin/realpath "$target")"
+    printf '%s' "$abs" | wl-copy
+    notify-send "Path copied" "$abs"
+  '';
+  thunarChecksum = pkgs.writeShellScriptBin "thunar-checksum" ''
+    target="$1"
+    [ -n "$target" ] || exit 1
+
+    if [ -d "$target" ]; then
+      exec kitty --working-directory "$target"
+    fi
+
+    dir="$(dirname "$target")"
+    base="$(basename "$target")"
+
+    exec kitty --working-directory "$dir" sh -lc '
+      echo "SHA-256:";
+      sha256sum "$1";
+      echo;
+      echo "BLAKE2:";
+      b2sum "$1";
+      echo;
+      read -r -p "Press Enter to close..." _
+    ' sh "$base"
+  '';
   pickConfig = rel:
     let
       userPath = userCfg + "/${rel}";
@@ -33,6 +90,7 @@ in
 
   xdg.configFile."noctalia/colorschemes/CatppuccinMacchiato".source =
     pickConfig "noctalia/colorschemes/CatppuccinMacchiato";
+  xdg.configFile."Thunar/uca.xml".source = pickConfig "thunar/uca.xml";
 
   systemd.user.services.xwayland-satellite = {
     Unit = {
@@ -75,10 +133,15 @@ in
     signal-desktop
     wl-clipboard
     copyq
+    togglePowerProfile
+    thunarOpenTerminalHere
+    thunarCopyPath
+    thunarChecksum
     grim
     slurp
     playerctl
     pavucontrol
+    libnotify
     restic-browser
   ];
 }

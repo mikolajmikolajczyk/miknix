@@ -392,6 +392,7 @@ binds {
     Mod+S hotkey-overlay-title="Noctalia Control Center" { spawn "noctalia-shell" "ipc" "call" "controlCenter" "toggle"; }
     Mod+Comma hotkey-overlay-title="Noctalia Settings" { spawn "noctalia-shell" "ipc" "call" "settings" "toggle"; }
     Super+Ctrl+V hotkey-overlay-title="Clipboard History" { spawn "copyq" "toggle"; }
+    Super+Ctrl+P hotkey-overlay-title="Toggle Power Profile" { spawn "toggle-power-profile"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.

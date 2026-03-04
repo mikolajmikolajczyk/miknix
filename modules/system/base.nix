@@ -74,6 +74,7 @@ in
     restic
     ripgrep
     gocryptfs
+    power-profiles-daemon
     samba
     nfs-utils
     qemu_kvm
