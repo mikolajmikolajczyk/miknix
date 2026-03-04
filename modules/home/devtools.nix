@@ -9,6 +9,12 @@ let
       defaultPath = defaultCfg + "/noctalia/colorschemes/CatppuccinMacchiato/CatppuccinMacchiato.json";
     in
     if builtins.pathExists userPath then userPath else defaultPath;
+  fastfetchLogoPath =
+    let
+      userPath = userCfg + "/fastfetch/nixoscolorful.png";
+      defaultPath = defaultCfg + "/fastfetch/nixoscolorful.png";
+    in
+    if builtins.pathExists userPath then userPath else defaultPath;
 in
 {
 
@@ -40,7 +46,9 @@ in
     enable = true;
     settings = {
       logo = {
-        source = "nixos";
+        type = "kitty-direct";
+        source = fastfetchLogoPath;
+        width = 33;
         padding.right = 2;
       };
       display = {
