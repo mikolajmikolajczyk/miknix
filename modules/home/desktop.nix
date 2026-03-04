@@ -74,6 +74,7 @@ in
     xwayland-satellite
     signal-desktop
     wl-clipboard
+    copyq
     grim
     slurp
     playerctl

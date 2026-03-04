@@ -274,6 +274,9 @@ layout {
 // This line starts waybar, a commonly used bar for Wayland compositors.
 spawn-at-startup "waybar"
 
+// Clipboard manager with GUI history and image thumbnails.
+spawn-sh-at-startup "copyq --start-server"
+
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
@@ -326,6 +329,12 @@ window-rule {
     // You can get away with just app-id="wezterm" if you want.
     match app-id=r#"^org\.wezfurlong\.wezterm$"#
     default-column-width {}
+}
+
+// Open CopyQ as floating by default.
+window-rule {
+    match app-id=r#"(^|\.)copyq$"#
+    open-floating true
 }
 
 // Open the Firefox picture-in-picture player as floating by default.
@@ -382,6 +391,7 @@ binds {
     Mod+Space hotkey-overlay-title="Noctalia Launcher" { spawn "noctalia-shell" "ipc" "call" "launcher" "toggle"; }
     Mod+S hotkey-overlay-title="Noctalia Control Center" { spawn "noctalia-shell" "ipc" "call" "controlCenter" "toggle"; }
     Mod+Comma hotkey-overlay-title="Noctalia Settings" { spawn "noctalia-shell" "ipc" "call" "settings" "toggle"; }
+    Super+Ctrl+V hotkey-overlay-title="Clipboard History" { spawn "copyq" "toggle"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
