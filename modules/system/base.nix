@@ -68,6 +68,7 @@ in
     wget
     jq
     yq
+    libsecret
     neovim
     codex
     pulseaudio

@@ -6,6 +6,10 @@
   services.displayManager.gdm.wayland = true;
   services.displayManager.defaultSession = "niri";
 
+  security.pam.services.gdm.enableGnomeKeyring = true;
+  security.pam.services.gdm-password.enableGnomeKeyring = true;
+  security.pam.services.login.enableGnomeKeyring = true;
+
   services.xserver.xkb = {
     layout = "pl";
     variant = "";
@@ -29,11 +33,27 @@
   services.gvfs.enable = true;
   services.tumbler.enable = true;
 
+
+  services.gnome.gnome-keyring.enable = true;
+
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    config = {
+      common = {
+        default = [ "gtk" ];
+      };
+    };
   };
+
+  environment.sessionVariables = {
+    GTK_USE_PORTAL = "1";
+  };
+
+  environment.systemPackages = with pkgs; [
+    seahorse
+  ];
 
   xdg.mime.defaultApplications = {
     "inode/directory" = [ "thunar.desktop" ];

@@ -131,6 +131,7 @@ in
     spicetify-cli
     xwayland-satellite
     signal-desktop
+    element-desktop
     wl-clipboard
     copyq
     togglePowerProfile
