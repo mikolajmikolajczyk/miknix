@@ -1,8 +1,10 @@
-{ config, pkgs, ... }:
-let
-  user = config.miknix.user;
-in
 {
+  config,
+  pkgs,
+  ...
+}: let
+  user = config.miknix.user;
+in {
   time.timeZone = "Europe/Warsaw";
 
   i18n = {
@@ -20,7 +22,7 @@ in
     };
   };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
   nixpkgs.config.allowUnfreePredicate = pkg:
     builtins.elem (pkgs.lib.getName pkg) [
       "spotify"
@@ -31,10 +33,10 @@ in
     description = user.description;
     home = user.home;
     group = user.group;
-    extraGroups = [ "wheel" "networkmanager" "docker" "kvm" "libvirtd" "video" "audio" "input" "render" ];
+    extraGroups = ["wheel" "networkmanager" "docker" "kvm" "libvirtd" "video" "audio" "input" "render"];
     shell = pkgs.zsh;
   };
-  users.groups.${user.group} = { };
+  users.groups.${user.group} = {};
   users.defaultUserShell = pkgs.zsh;
 
   security.sudo.wheelNeedsPassword = true;
@@ -70,7 +72,7 @@ in
     yq
     libsecret
     neovim
-    codex
+    claude-code
     pulseaudio
     restic
     ripgrep
@@ -93,5 +95,8 @@ in
     bzip2
     lz4
     btrfs-progs
+    psmisc
+    openssl
+    bind
   ];
 }

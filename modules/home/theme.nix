@@ -1,5 +1,8 @@
-{ config, pkgs, ... }:
 {
+  config,
+  pkgs,
+  ...
+}: {
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
@@ -47,5 +50,4 @@
     color_scheme_path=${config.xdg.configHome}/qt6ct/colors/noctalia.conf
     custom_palette=true
   '';
-
 }

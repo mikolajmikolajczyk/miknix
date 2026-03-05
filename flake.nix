@@ -21,27 +21,32 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, ... }:
-    let
-      system = "x86_64-linux";
-      lib = nixpkgs.lib;
-      mkSystem = modules:
-        lib.nixosSystem {
-          inherit system;
-          specialArgs = { inherit inputs; };
-          modules = modules ++ [
+  outputs = inputs @ {
+    self,
+    nixpkgs,
+    home-manager,
+    ...
+  }: let
+    system = "x86_64-linux";
+    lib = nixpkgs.lib;
+    mkSystem = modules:
+      lib.nixosSystem {
+        inherit system;
+        specialArgs = {inherit inputs;};
+        modules =
+          modules
+          ++ [
             home-manager.nixosModules.home-manager
-            ({ system.stateVersion = "26.05"; })
+            {system.stateVersion = "26.05";}
           ];
-        };
-    in
-    {
-      nixosConfigurations = {
-        laptop = mkSystem [
-          ./hosts/laptop/configuration.nix
-        ];
       };
-
-      formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
+  in {
+    nixosConfigurations = {
+      laptop = mkSystem [
+        ./hosts/laptop/configuration.nix
+      ];
     };
+
+    formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
+  };
 }

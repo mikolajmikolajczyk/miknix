@@ -1,25 +1,14 @@
-{ config, inputs, lib, pkgs, ... }:
-let
+{
+  config,
+  inputs,
+  lib,
+  pkgs,
+  ...
+}: let
   spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
   cfgRoot = ../../config;
   userCfg = cfgRoot + "/${config.home.username}";
   defaultCfg = cfgRoot + "/default";
-  togglePowerProfile = pkgs.writeShellScriptBin "toggle-power-profile" ''
-    current="$(${pkgs.power-profiles-daemon}/bin/powerprofilesctl get 2>/dev/null || true)"
-
-    case "$current" in
-      power-saver) next="balanced" ;;
-      balanced) next="performance" ;;
-      performance) next="power-saver" ;;
-      *) next="balanced" ;;
-    esac
-
-    ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set "$next"
-
-    if command -v notify-send >/dev/null 2>&1; then
-      notify-send "Power profile" "Switched to $next"
-    fi
-  '';
   thunarOpenTerminalHere = pkgs.writeShellScriptBin "thunar-open-terminal-here" ''
     target="$1"
     [ -n "$target" ] || target="$PWD"
@@ -61,14 +50,14 @@ let
       read -r -p "Press Enter to close..." _
     ' sh "$base"
   '';
-  pickConfig = rel:
-    let
-      userPath = userCfg + "/${rel}";
-      defaultPath = defaultCfg + "/${rel}";
-    in
-    if builtins.pathExists userPath then userPath else defaultPath;
-in
-{
+  pickConfig = rel: let
+    userPath = userCfg + "/${rel}";
+    defaultPath = defaultCfg + "/${rel}";
+  in
+    if builtins.pathExists userPath
+    then userPath
+    else defaultPath;
+in {
   imports = [
     inputs.spicetify-nix.homeManagerModules.default
   ];
@@ -95,18 +84,18 @@ in
   systemd.user.services.xwayland-satellite = {
     Unit = {
       Description = "Xwayland Satellite";
-      PartOf = [ "graphical-session.target" ];
-      After = [ "graphical-session.target" ];
+      PartOf = ["graphical-session.target"];
+      After = ["graphical-session.target"];
     };
     Service = {
       ExecStart = "${pkgs.xwayland-satellite}/bin/xwayland-satellite";
       Restart = "on-failure";
       RestartSec = 1;
     };
-    Install.WantedBy = [ "graphical-session.target" ];
+    Install.WantedBy = ["graphical-session.target"];
   };
 
-  home.activation.installPywalfox = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+  home.activation.installPywalfox = lib.hm.dag.entryAfter ["writeBoundary"] ''
     if command -v pywalfox >/dev/null 2>&1; then
       pywalfox install >/dev/null 2>&1 || true
     fi
@@ -114,7 +103,6 @@ in
 
   home.packages = with pkgs; [
     kitty
-    codex
     discord
     ferdium
     gimp
@@ -133,8 +121,7 @@ in
     signal-desktop
     element-desktop
     wl-clipboard
-    copyq
-    togglePowerProfile
+    cliphist
     thunarOpenTerminalHere
     thunarCopyPath
     thunarChecksum

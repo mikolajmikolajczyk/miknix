@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   fonts = {
     packages = with pkgs; [
       inter
@@ -9,10 +8,10 @@
     fontconfig = {
       enable = true;
       defaultFonts = {
-        sansSerif = [ "Inter" ];
-        serif = [ "Inter" ];
-        monospace = [ "JetBrainsMono Nerd Font" ];
-        emoji = [ "Noto Color Emoji" ];
+        sansSerif = ["Inter"];
+        serif = ["Inter"];
+        monospace = ["JetBrainsMono Nerd Font"];
+        emoji = ["Noto Color Emoji"];
       };
     };
   };

@@ -1,8 +1,10 @@
-{ config, osConfig, ... }:
-let
-  secretsDir = osConfig.miknix.secretsDir;
-in
 {
+  config,
+  osConfig,
+  ...
+}: let
+  secretsDir = osConfig.miknix.secretsDir;
+in {
   programs.git = {
     enable = true;
     settings = {

@@ -1,6 +1,5 @@
-{ config, ... }:
-{
-  services.xserver.videoDrivers = [ "amdgpu" "nvidia" ];
+{config, ...}: {
+  services.xserver.videoDrivers = ["amdgpu" "nvidia"];
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = true;

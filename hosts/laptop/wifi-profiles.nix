@@ -1,7 +1,6 @@
-{ wifiSecretsFile, ... }:
-{
+{wifiSecretsFile, ...}: {
   networking.networkmanager.ensureProfiles = {
-    environmentFiles = [ wifiSecretsFile ];
+    environmentFiles = [wifiSecretsFile];
     profiles = {
       home = {
         connection = {

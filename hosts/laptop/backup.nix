@@ -1,8 +1,6 @@
-{ config, ... }:
-let
+{config, ...}: let
   homeDir = config.miknix.user.home;
-in
-{
+in {
   services.restic.backups = {
     critical = {
       repository = "/mnt/secure/backups/critical";
@@ -57,12 +55,12 @@ in
   };
 
   systemd.services."restic-backups-critical" = {
-    requires = [ "mnt-secure.mount" ];
-    after = [ "mnt-secure.mount" ];
+    requires = ["mnt-secure.mount"];
+    after = ["mnt-secure.mount"];
   };
 
   systemd.services."restic-backups-data" = {
-    requires = [ "mnt-secure.mount" ];
-    after = [ "mnt-secure.mount" ];
+    requires = ["mnt-secure.mount"];
+    after = ["mnt-secure.mount"];
   };
 }

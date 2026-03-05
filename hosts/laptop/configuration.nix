@@ -1,8 +1,6 @@
-{ config, ... }:
-let
+{config, ...}: let
   wifiSecretsFile = "${config.miknix.secretsDir}/wifi-secrets.env";
-in
-{
+in {
   imports = [
     ./hardware-configuration.nix
     ../../modules/system/secrets.nix
@@ -17,7 +15,7 @@ in
     ./storage.nix
     ./backup.nix
     ./nvidia.nix
-    (import ./wifi-profiles.nix { inherit wifiSecretsFile; })
+    (import ./wifi-profiles.nix {inherit wifiSecretsFile;})
   ];
 
   miknix.user = {
@@ -58,7 +56,7 @@ in
   boot.loader.systemd-boot.configurationLimit = 10;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.initrd.luks.devices.cryptroot.crypttabExtraOpts = [ "fido2-device=auto" ];
+  boot.initrd.luks.devices.cryptroot.crypttabExtraOpts = ["fido2-device=auto"];
 
   powerManagement.enable = true;
   services.power-profiles-daemon.enable = true;

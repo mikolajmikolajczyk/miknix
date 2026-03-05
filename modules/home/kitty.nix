@@ -1,16 +1,20 @@
-{ config, lib, pkgs, ... }:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfgRoot = ../../config;
   userCfg = cfgRoot + "/${config.home.username}";
   defaultCfg = cfgRoot + "/default";
-  noctaliaColors =
-    let
-      userPath = userCfg + "/noctalia/colorschemes/CatppuccinMacchiato/CatppuccinMacchiato.json";
-      defaultPath = defaultCfg + "/noctalia/colorschemes/CatppuccinMacchiato/CatppuccinMacchiato.json";
-    in
-    if builtins.pathExists userPath then userPath else defaultPath;
-in
-{
+  noctaliaColors = let
+    userPath = userCfg + "/noctalia/colorschemes/CatppuccinMacchiato/CatppuccinMacchiato.json";
+    defaultPath = defaultCfg + "/noctalia/colorschemes/CatppuccinMacchiato/CatppuccinMacchiato.json";
+  in
+    if builtins.pathExists userPath
+    then userPath
+    else defaultPath;
+in {
   programs.kitty = {
     enable = true;
     extraConfig = ''
@@ -18,7 +22,7 @@ in
     '';
   };
 
-  home.activation.syncKittyNoctalia = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+  home.activation.syncKittyNoctalia = lib.hm.dag.entryAfter ["writeBoundary"] ''
     kitty_dir="${config.xdg.configHome}/kitty"
     mkdir -p "$kitty_dir"
     ${pkgs.jq}/bin/jq -r '

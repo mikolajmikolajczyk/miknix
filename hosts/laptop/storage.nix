@@ -1,9 +1,11 @@
-{ config, pkgs, ... }:
-let
+{
+  config,
+  pkgs,
+  ...
+}: let
   secretsDir = config.miknix.secretsDir;
   user = config.miknix.user;
-in
-{
+in {
   environment.systemPackages = with pkgs; [
     cifs-utils
   ];
@@ -52,7 +54,7 @@ in
   systemd.automounts = [
     {
       where = "/mnt/secure";
-      wantedBy = [ "multi-user.target" ];
+      wantedBy = ["multi-user.target"];
     }
   ];
 
@@ -62,9 +64,9 @@ in
       where = "/mnt/secure";
       type = "fuse.gocryptfs";
       options = "passfile=${secretsDir}/gocryptfs-mm-secure-storage.pass,allow_other";
-      after = [ "mnt-mm_secure_storage.mount" "network-online.target" ];
-      wants = [ "network-online.target" ];
-      requires = [ "mnt-mm_secure_storage.mount" ];
+      after = ["mnt-mm_secure_storage.mount" "network-online.target"];
+      wants = ["network-online.target"];
+      requires = ["mnt-mm_secure_storage.mount"];
     }
   ];
 }

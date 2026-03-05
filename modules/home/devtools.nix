@@ -1,23 +1,27 @@
-{ config, lib, pkgs, ... }:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfgRoot = ../../config;
   userCfg = cfgRoot + "/${config.home.username}";
   defaultCfg = cfgRoot + "/default";
-  noctaliaColors =
-    let
-      userPath = userCfg + "/noctalia/colorschemes/CatppuccinMacchiato/CatppuccinMacchiato.json";
-      defaultPath = defaultCfg + "/noctalia/colorschemes/CatppuccinMacchiato/CatppuccinMacchiato.json";
-    in
-    if builtins.pathExists userPath then userPath else defaultPath;
-  fastfetchLogoPath =
-    let
-      userPath = userCfg + "/fastfetch/nixoscolorful.png";
-      defaultPath = defaultCfg + "/fastfetch/nixoscolorful.png";
-    in
-    if builtins.pathExists userPath then userPath else defaultPath;
-in
-{
-
+  noctaliaColors = let
+    userPath = userCfg + "/noctalia/colorschemes/CatppuccinMacchiato/CatppuccinMacchiato.json";
+    defaultPath = defaultCfg + "/noctalia/colorschemes/CatppuccinMacchiato/CatppuccinMacchiato.json";
+  in
+    if builtins.pathExists userPath
+    then userPath
+    else defaultPath;
+  fastfetchLogoPath = let
+    userPath = userCfg + "/fastfetch/nixoscolorful.png";
+    defaultPath = defaultCfg + "/fastfetch/nixoscolorful.png";
+  in
+    if builtins.pathExists userPath
+    then userPath
+    else defaultPath;
+in {
   home.packages = with pkgs; [
     gcc
     gnumake
@@ -117,7 +121,7 @@ in
     K9S_SKIN = "noctalia";
   };
 
-  home.activation.k9sPywalSkin = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+  home.activation.k9sPywalSkin = lib.hm.dag.entryAfter ["writeBoundary"] ''
     noctalia_colors="${noctaliaColors}"
     skin_dir="${config.xdg.configHome}/k9s/skins"
     skin_file="$skin_dir/noctalia.yaml"

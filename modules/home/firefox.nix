@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-let
+{pkgs, ...}: let
   firefoxPersonal = pkgs.writeShellScriptBin "firefox-personal" ''
     set -eu
     export MOZ_GTK_TITLEBAR_DECORATION=client
@@ -10,8 +9,7 @@ let
     export MOZ_GTK_TITLEBAR_DECORATION=client
     exec ${pkgs.firefox}/bin/firefox --no-remote -P "work" "$@"
   '';
-in
-{
+in {
   programs.firefox = {
     enable = true;
     package = pkgs.firefox;
@@ -70,7 +68,7 @@ in
       genericName = "Web Browser";
       exec = "firefox-personal %u";
       terminal = false;
-      categories = [ "Network" "WebBrowser" ];
+      categories = ["Network" "WebBrowser"];
       icon = "firefox";
       mimeType = [
         "text/html"
@@ -83,7 +81,7 @@ in
       genericName = "Web Browser";
       exec = "firefox-work %u";
       terminal = false;
-      categories = [ "Network" "WebBrowser" ];
+      categories = ["Network" "WebBrowser"];
       icon = "firefox";
       mimeType = [
         "text/html"
