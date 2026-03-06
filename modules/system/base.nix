@@ -26,6 +26,7 @@ in {
   nixpkgs.config.allowUnfreePredicate = pkg:
     builtins.elem (pkgs.lib.getName pkg) [
       "spotify"
+      "obsidian"
     ];
 
   users.users.${user.name} = {
@@ -96,6 +97,7 @@ in {
     lz4
     btrfs-progs
     psmisc
+    gh
     openssl
     bind
   ];

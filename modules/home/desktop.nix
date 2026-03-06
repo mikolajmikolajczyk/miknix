@@ -131,5 +131,6 @@ in {
     pavucontrol
     libnotify
     restic-browser
+    obsidian
   ];
 }

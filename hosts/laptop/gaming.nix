@@ -13,8 +13,15 @@
     enable32Bit = true;
   };
 
+  programs.steam.extraCompatPackages = [pkgs.proton-ge-bin];
+
   environment.systemPackages = with pkgs; [
     mesa
     vulkan-tools
+    lutris
+    protonup-qt
+    winetricks
+    wineWow64Packages.stable
+    mangohud
   ];
 }
