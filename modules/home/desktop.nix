@@ -103,7 +103,7 @@ in {
 
   home.packages = with pkgs; [
     kitty
-    discord
+    vesktop
     ferdium
     gimp
     eog
